@@ -226,7 +226,7 @@ ul{
 
 .login-button {
     display: inline-block;
-    background-color: #5976f3;
+    background-color: #23BBFE;
     width: 100%;
     color: #fff;
     font-weight: 700;
@@ -293,14 +293,14 @@ h5 {
 
 .principal .info-data {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
 }
 
 .principal .info-data .card{
     padding: 20px;
     height: 100px;
-    width: 480px;
+    width: 280px;
     border-radius: 10px;
     background: var(--withe);
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -320,4 +320,57 @@ h5 {
     justify-content: center;
     margin-left: 30px;
     margin-right: 30px;
+}
+
+
+.contain {
+    display: flex;
+    align-items: center; /* Aligner verticalement */
+    justify-content: space-between; /* Espacer le texte et l'image */
+    padding: 20px;
+}
+
+.part {
+    flex: 1; /* Prend tout l'espace disponible à gauche */
+    font-size: 25px;
+    font-weight: bold;
+    font-family: Raleway;
+    font-weight: 500;
+    margin-left: 50px;
+}
+
+.svg {
+    flex: 1; /* Prend tout l'espace disponible à droite */
+    display: flex;
+    justify-content: center;
+}
+
+.svg img {
+    max-width: 100%; /* Empêche l'image de dépasser */
+    height: 500px;
+    margin-top: 50px;
+}
+
+/***/
+
+.principal .info-data .card.i h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--bleue);
+} 
+
+.principal .info-data .card.u h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--green);
+}
+
+
+.principal .info-data .card p{
+    font-size: 18px;
+}
+
+.principal .card .head .icon{
+    font-size: 25px;
+    color: var(--dark-grey);
 }

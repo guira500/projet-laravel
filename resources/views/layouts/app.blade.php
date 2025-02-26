@@ -18,18 +18,30 @@
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav-logo">
+            <a href="{{route ('admin/home') }}" class="nav-logo">
                 <img src="{{ asset('images/Screenshot_20240624-233455-removebg-preview.png') }}" alt="">
             </a>
 
             <ul class="nav-list">
 
                 <li class="nav-item">
-                    <a href="{{route ('admin/profile') }}" class="nav-link" style="color: black;">Bienvenue, Borllis SOME</a>
+                    <a href="{{route ('admin/profile') }}" class="nav-link" style="color: black;">Bienvenue, {{ Auth::user()->prenom }} {{ Auth::user()->nom }}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{route ('admin/elements') }}" class="nav-link">Emploi du temps</a>
+                    <a href="{{route ('admin/professeur') }}" class="nav-link">Professeurs</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route ('admin/module') }}" class="nav-link">Module</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route ('admin/salle') }}" class="nav-link">Salles</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{route ('admin/emploi') }}" class="nav-link">Emploi</a>
                 </li>
 
                 <li class="nav-item">
@@ -44,6 +56,8 @@
     <section>
         <div>@yield('contents')</div>
     </section>
+
+
     <!-- <p class="p" style="text-align: start;">Vous êtes concerné par les classes ci-après à l'ESI</p>
     <hr>
     

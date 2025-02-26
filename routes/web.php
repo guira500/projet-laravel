@@ -5,9 +5,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ElementController;
+use App\Http\Controllers\ProfesseurController;
+use App\Http\Controllers\SalleController;
+use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\EmploiController;
+use App\Http\Controllers\EmploiUserController;
 
 Route::get('/', function () {
-    return view('welcome');
+    /* return view('welcome'); */
+    return redirect()->route('login');
 });
 
 
@@ -21,9 +27,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
 
+
 //route utilisateur normal
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/home',[HomeController::class, 'index'])->name('home');
+
+    Route::get('/home/emplois',[EmploiUserController::class, 'index'])->name('home/emplois');
 });
 
 
@@ -40,4 +49,17 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/elements/edit/{id}',[ElementController::class, 'show'])->name('admin/elements/edit');
     Route::put('/admin/elements/update/{id}',[ElementController::class, 'update'])->name('admin/elements/update');
     Route::delete('/admin/elements/destroy/{id}',[ElementController::class, 'destroy'])->name('admin/elements/destroy');
+
+    Route::get('/admin/professeur',[ProfesseurController::class, 'index'])->name('admin/professeur');
+
+    Route::get('/admin/salle',[SalleController::class, 'index'])->name('admin/salle');
+    Route::post('/admin/salle/store',[SalleController::class, 'store'])->name('admin/salle/store');
+
+    Route::get('/admin/module',[ModuleController::class, 'index'])->name('admin/module');
+    Route::post('/admin/module/store',[ModuleController::class, 'store'])->name('admin/module/store');
+
+    Route::get('/admin/emploi',[EmploiController::class, 'index'])->name('admin/emploi');
+    Route::post('/admin/emploi/store',[EmploiController::class, 'store'])->name('admin/emploi/store');
+
+    Route::post('admin/emploi/envoyer/{niveau}', [EmploiController::class, 'envoyer'])->name('admin/emploi/envoyer');
 });

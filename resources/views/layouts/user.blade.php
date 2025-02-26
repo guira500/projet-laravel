@@ -18,18 +18,18 @@
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav-logo">
+            <a href="{{ url('home') }}" class="nav-logo">
                 <img src="{{ asset('images/Screenshot_20240624-233455-removebg-preview.png') }}" alt="">
             </a>
 
             <ul class="nav-list">
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link" style="color: black;">Bienvenue, Ferdinand GUINKO</a>
+                    <a href="#" class="nav-link" style="color: black;">Bienvenue, {{ Auth::user()->prenom }} {{ Auth::user()->nom }}</a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Emploi du temps</a>
+                    <a href="{{ url('home/emplois') }}" class="nav-link">Emploi du temps</a>
                 </li>
 
                 <li class="nav-item">
@@ -44,32 +44,6 @@
     <section>
         <div>@yield('contents')</div>
     </section>
-    <!-- <p class="p" style="text-align: start;">Vous êtes concerné par les classes ci-après à l'ESI</p>
-    <hr>
-    
-    <div class="table-container">
-        <table class="table table-hover table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Niveau</th>
-                    <th>Semestre</th>
-                    <th>UE</th>
-                    <th>UECE</th>
-                    <th>Coefficient</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>L1</td>
-                    <td>1</td>
-                    <td>INF</td>
-                    <td>ANGLAIS</td>
-                    <td>2</td>
-                </tr>
-            </tbody>
-        </table>
-    </div> -->
-    
 
     <script type="text/javascript" src="{{ asset('script.js') }}"></script>
 

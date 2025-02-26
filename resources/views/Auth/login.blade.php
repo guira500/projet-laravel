@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,21 +28,29 @@
                     <a href="#" class="nav-link">Emploi du temps</a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#createModal">Compte enseignant</a>
-                </li>
+                <!-- <li class="nav-item">
+                    <a href="{{ route('register') }}" class="nav-link">Compte enseignant</a>
+                </li> -->
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link" id="presence">Se connecter  <i class="fa-solid fa-user"></i></a>
+                    <a href="#" class="nav-link" id="presence" style="background: #27BBFE; border-radius: 5px; color: white; text-align: center;">Se connecter  <i class="fa-solid fa-user"></i></a>
                 </li>
 
             </ul>
         </nav>
     </header>
 
-    <br><br><br><br>
-    <h3 class="alert alert-info">Année académique 2024 - 2025</h3>
-    <h5>Fiche semestrielle : Licence 1</h5>
+    <div class="contain">
+        <div class="part">
+            <h2 style="color: #23bbfe;">Bienvenu sur la plateforme de <br> gestion des emplois du temps.</h2>
+        </div>
+        <div class="svg">
+        <img src="{{ asset('images/Time management-cuate.svg') }}" alt="" class="card-img-top">
+        </div>
+    </div>
+
+
+    <!-- <h5>Fiche semestrielle : Licence 1</h5>
     <hr>
     <div class="principal">
         <section>
@@ -67,6 +74,7 @@
         </section>
     </div>
 
+    <br>
     <h5>Fiche semestrielle : Licence 2</h5>
     <hr>
     <div class="principal">
@@ -90,7 +98,7 @@
             </div>
         </section>
     </div>
-
+    <br>
     <h5>Fiche semestrielle : Licence 3</h5>
     <hr>
     <div class="principal">
@@ -105,12 +113,10 @@
                 </div>
             </div>
         </section>
-    </div>
-    
+    </div> -->
     <br><br>
 
-    <!-- Modal -->
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -136,7 +142,7 @@
             </div>
         </div>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="login" id="login">
