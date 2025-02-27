@@ -10,6 +10,10 @@ use App\Http\Controllers\SalleController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\EmploiController;
 use App\Http\Controllers\EmploiUserController;
+use App\Http\Controllers\AfficherController;
+
+
+
 
 Route::get('/', function () {
     /* return view('welcome'); */
@@ -25,6 +29,13 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'loginAction')->name('login.action');
 
     Route::get('logout', 'logout')->middleware('auth')->name('logout');
+
+    //Route::get('sendTestEmail', 'sendTestEmail')->name('sendTestEmail');
+});
+
+
+Route::controller(AfficherController::class)->group(function () {
+    Route::get('afficher', 'index')->name('afficher');
 });
 
 
@@ -33,6 +44,11 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/home',[HomeController::class, 'index'])->name('home');
 
     Route::get('/home/emplois',[EmploiUserController::class, 'index'])->name('home/emplois');
+
+    Route::post('/home/emplois/valider/{id}', [EmploiUserController::class, 'valider'])->name('home/emplois/valider');
+    Route::post('/home/emplois/refuser/{id}', [EmploiUserController::class, 'refuser'])->name('home/emplois/refuser');
+
+    Route::post('/home/emplois/soumettre/{niveau}', [EmploiUserController::class, 'soumettre'])->name('home/emplois/soumettre');
 });
 
 
@@ -62,4 +78,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::post('/admin/emploi/store',[EmploiController::class, 'store'])->name('admin/emploi/store');
 
     Route::post('admin/emploi/envoyer/{niveau}', [EmploiController::class, 'envoyer'])->name('admin/emploi/envoyer');
+
+    Route::post('admin/emploi/publier/{niveau}', [EmploiController::class, 'publier'])->name('admin/emploi/publier');
+
+    Route::post('admin/emploi/retirer/{niveau}', [EmploiController::class, 'retirer'])->name('admin/emploi/retirer');
 });

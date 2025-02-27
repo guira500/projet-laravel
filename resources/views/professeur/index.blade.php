@@ -4,7 +4,7 @@
 
 @section('contents')
 <br><br><br><br><br>
-        <h3><a href="{{ route('register') }}" class="btn btn-primary float-right" style="margin-right: 150px">Ajouter element</a></h3>
+        <h3><a href="{{ route('register') }}" class="btn btn-primary float-right" style="margin-right: 150px">Nouveau professeur</a></h3>
         <br><br><br>
         <div class="table-container">
             <table class="table table-hover table-bordered table-striped" style="width: 80%;">

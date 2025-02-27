@@ -22,8 +22,9 @@ return new class extends Migration
             $table->foreignId('module_id')->constrained();
             $table->foreignId('professeur_id')->constrained();
             $table->enum('validation_professeur', ['en attente', 'valide', 'refuse'])->default('en attente');
-            $table->boolean('publie')->default(false);
-            $table->boolean('envoye')->default(false);
+            $table->boolean('publié')->default(false);
+            $table->boolean('envoyé')->default(false);
+            $table->boolean('soumis')->default(false);
             $table->timestamps();
         });
     }

@@ -18,14 +18,14 @@
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <a href="#" class="nav-logo">
+            <a href="{{ route('login') }}" class="nav-logo">
                 <img src="{{ asset('images/Screenshot_20240624-233455-removebg-preview.png') }}" alt="">
             </a>
 
             <ul class="nav-list">
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Emploi du temps</a>
+                    <a href="{{ route('afficher') }}" class="nav-link">Emploi du temps</a>
                 </li>
 
                 <!-- <li class="nav-item">

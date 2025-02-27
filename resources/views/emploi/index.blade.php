@@ -23,21 +23,24 @@
         @if(isset($emplois[$niveau->nom])) 
             <div class="container mt-5">
                 <table class="table table-bordered text-center">
-                    <thead class="bg-primary text-white">
+                    <thead>
                         <tr>
-                            <th colspan="5" class="text-center">Emploi du temps de {{ $niveau->nom }}</th>
+                            <th colspan="5" class="text-center">Emploi du temps de {{ $niveau->nom }} du {{ now()->startOfWeek()->format('d/m/Y') }} au {{ now()->endOfWeek()->format('d/m/Y') }}</th>
                         </tr>
-                        <tr style="background: #23BBFE">
-                            <th>Jours</th>
+                        <tr>
+                            <th class="bg-primary text-white">Jours</th>
                             @foreach($horaires as $horaire)
-                                <th>{{ $horaire }}</th>
+                                <th class="bg-primary text-white">{{ $horaire }}</th>
                             @endforeach
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($jours as $jour)
                             <tr>
-                                <td class="font-weight-bold" style="height: 100px;">{{ $jour }}</td>
+                            <td class="bg-primary text-white font-weight-bold" style="height: 100px;">
+                                {{ $jour }} <br>
+                                <small>{{ now()->startOfWeek()->addDays(array_search($jour, $jours))->format('d/m/Y') }}</small>
+                            </td>
                                 @foreach(array_keys($horaires) as $heure)
                                     @php
                                         $seance = $emplois[$niveau->nom]->where('date', now()->startOfWeek()->addDays(array_search($jour, $jours))->toDateString())->where('heure_debut', $heure)->first();
@@ -47,6 +50,14 @@
                                             <strong>{{ $seance->module->nom }}</strong> <br>
                                              {{ $seance->professeur->prenom }} {{ $seance->professeur->nom }} <br>
                                             <small>SALLE : {{ $seance->salle->nom }}</small>
+                                            <br>
+                                            @if($seance->validation_professeur === 'en attente')
+                                                <span class="badge bg-warning">En attente de validation</span>
+                                            @elseif($seance->validation_professeur === 'valide')
+                                                <span class="badge bg-success">Validé</span>
+                                            @elseif($seance->validation_professeur === 'refuse')
+                                                <span class="badge bg-danger">Refusé</span>
+                                            @endif
                                         @else
                                             
                                         @endif
@@ -57,11 +68,33 @@
                     </tbody>
                 </table>
 
-                <form action="{{ route('admin/emploi/envoyer', ['niveau' => $niveau->id]) }}" method="POST">
+                <div class="d-flex">
+                <form action="{{ route('admin/emploi/envoyer', ['niveau' => $niveau->id]) }}" method="POST" class="mr-2 d-inline-block">
                     @csrf
                     <button type="submit" class="btn btn-success">Envoyer l'emploi du temps aux professeurs</button>
                 </form>
 
+                <form action="{{ route('admin/emploi/publier', ['niveau' => $niveau->id]) }}" method="POST" class="mr-2 d-inline-block">
+                    @csrf
+                    <button type="submit" class="btn btn-primary mt-3">Publier l'emploi du temps</button>
+                </form>
+
+                {{-- Vérifier si des emplois publiés existent pour ce niveau --}}
+                @php
+                    $emploisPubliés = DB::table('emploi_de_temps')
+                        ->where('niveau_id', $niveau->id)
+                        ->where('publié', true)
+                        ->count();
+                @endphp
+
+                @if($emploisPubliés > 0)
+                    <form action="{{ route('admin/emploi/retirer', ['niveau' => $niveau->id]) }}" method="POST" class="d-inline-block">
+                        @csrf
+                        <button type="submit" class="btn btn-danger mt-3">Retirer la publication</button>
+                    </form>
+                @endif
+
+                </div>
             </div>
         @endif
     @endforeach

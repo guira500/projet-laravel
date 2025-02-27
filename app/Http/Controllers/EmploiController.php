@@ -9,6 +9,7 @@ use App\Models\Module;
 use App\Models\Salle;
 use App\Models\Niveau;
 use App\Models\Semestre;
+use Illuminate\Support\Facades\DB;
 
 
 class EmploiController extends Controller
@@ -121,11 +122,62 @@ class EmploiController extends Controller
         //dd($emplois);
         foreach ($emplois as $emploi) {
         // Mise à jour du champ 'publié' à 2
-            $emploi->publié = 2;
+            $emploi->envoyé = 1;
             $emploi->save();
         }
 
         return redirect()->route('admin/emploi')->with('success', 'Emploi du temps publié.');
+    }
+
+    public function publier($niveauId)
+    {
+        $niveau = Niveau::findOrFail($niveauId);
+
+        // Récupérer les emplois du temps associés à ce niveau et dont la validation est 'valide'
+        $emplois = DB::table('emploi_de_temps')
+            ->where('niveau_id', $niveau->id)
+            ->where('validation_professeur', 'valide')  // Récupérer uniquement les emplois validés
+            ->get();
+
+        // Vérifier si des emplois du temps validés existent
+        if ($emplois->isNotEmpty()) {
+            // Mettre à jour l'état 'publié' de chaque emploi du temps validé
+            foreach ($emplois as $emploi) {
+                DB::table('emploi_de_temps')
+                    ->where('id', $emploi->id)
+                    ->update(['publié' => true]);
+            }
+
+            return redirect()->back()->with('success', 'L\'emploi du temps a été publié.');
+        } else {
+            // Aucun emploi du temps validé à publier
+            return redirect()->back()->with('error', 'Aucun emploi du temps validé à publier.');
+        }
+    }
+
+    public function retirer($niveauId)
+    {
+        // Trouver le niveau
+    $niveau = Niveau::findOrFail($niveauId);
+
+    // Récupérer les emplois du temps associés au niveau et ayant le statut 'publié' à true
+    $emplois = DB::table('emploi_de_temps')
+        ->where('niveau_id', $niveau->id)  // Associer les emplois au niveau
+        ->where('publié', true)  // Vérifier que le statut 'publié' est à true
+        ->get();
+
+    // Vérifier s'il y a des emplois publiés à retirer
+    if ($emplois->isNotEmpty()) {
+        // Mettre à jour tous les emplois du temps pour les marquer comme non publiés
+        DB::table('emploi_de_temps')
+            ->where('niveau_id', $niveau->id)  // Associer à ce niveau
+            ->update(['publié' => false]);  // Retirer la publication de tous les emplois
+
+        return redirect()->back()->with('success', 'L\'emploi du temps a été retiré de la publication.');
+    } else {
+        // Aucun emploi du temps publié pour ce niveau
+        return redirect()->back()->with('error', 'Aucun emploi du temps publié à retirer.');
+    }
     }
 
 }

@@ -19,8 +19,9 @@ class EmploiDeTemps extends Model
         'module_id',
         'professeur_id',
         'validation_professeur',
-        'publie',
-        'envoye'
+        'publié',
+        'envoyé',
+        'soumis',
     ];
 
     public function professeur()

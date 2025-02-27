@@ -17,9 +17,9 @@ class EmploiUserController extends Controller
         // Récupérer les emplois du temps du professeur avec les niveaux, et les modules associés
         $emplois = EmploiDeTemps::with(['module', 'professeur', 'salle', 'niveau'])
             ->where('professeur_id', $professeurId)
-            ->where('publié', 2) // Seulement les emplois du temps publiés
+            ->where('envoyé', 1) // Seulement les emplois du temps publiés
             ->get()
-            ->groupBy('niveau.nom'); // Grouper par niveau
+            ->groupBy('niveau.id'); // Grouper par niveau
 
         return view('emplois.index', compact('emplois'));
    
@@ -73,4 +73,35 @@ class EmploiUserController extends Controller
     {
         //
     }
+
+    public function valider($id)
+    {
+        $seance = EmploiDeTemps::findOrFail($id);
+        $seance->update(['validation_professeur' => 'valide']);
+
+        return back()->with('success', 'Séance validée avec succès !');
+    }
+
+    public function refuser($id)
+    {
+        $seance = EmploiDeTemps::findOrFail($id);
+        $seance->update(['validation_professeur' => 'refuse']);
+
+        return back()->with('error', 'Séance refusée.');
+    }
+
+    public function soumettre($niveau)
+    {
+        $emplois = EmploiDeTemps::where('niveau_id', $niveau)->get();
+
+        // Vérifier que toutes les séances sont validées ou refusées
+        if ($emplois->every(fn($seance) => $seance->validation_professeur !== 'en attente')) {
+            $emplois->each->update(['soumis' => true]);
+
+            return back()->with('success', 'Emploi du temps soumis à l\'administrateur.');
+        }
+
+        return back()->with('error', 'Toutes les séances doivent être validées ou refusées avant soumission.');
+    }
+
 }
